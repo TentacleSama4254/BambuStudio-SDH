@@ -19,6 +19,10 @@ jobs:
     - name: Install Boost
       run: |
         choco install boost-msvc-14.2
+    
+    - name: Install TBB
+      run: |
+        choco install tbb
 
     - name: Set up dependencies
       run: |
