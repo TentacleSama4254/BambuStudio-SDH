@@ -16,6 +16,10 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Install Boost
+      run: |
+        choco install boost-msvc-14.2
+
     - name: Set up dependencies
       run: |
         cd deps
@@ -31,3 +35,9 @@ jobs:
         cd build
         cmake .. -G "Visual Studio 16 2019" -DBBL_RELEASE_TO_PUBLIC=1 -DCMAKE_PREFIX_PATH="${{ github.workspace }}/deps/usr/local" -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0"
         cmake --build . --target install --config Release
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: BambuStudio_exe
+        path: ./build/BambuStudio.exe
