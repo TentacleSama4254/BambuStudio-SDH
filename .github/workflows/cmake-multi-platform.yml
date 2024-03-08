@@ -22,7 +22,9 @@ jobs:
     
     - name: Install TBB
       run: |
-        choco install tbb
+        curl -L https://api.anaconda.com/download/version/2021.2.0/tbb-2021.2.0-intel_213.tar.bz2 -o tbb.tar.bz2
+        tar xjf tbb.tar.bz2
+        echo "TBB_DIR=${{ github.workspace }}/tbb-2021.2.0" >> $GITHUB_ENV
 
     - name: Set up dependencies
       run: |
