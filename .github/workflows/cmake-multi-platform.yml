@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-2021
 
     steps:
     - uses: actions/checkout@v2
@@ -16,11 +16,11 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Install TBB
-      run: |
-        choco install oneapi-cli
-        oneapi-cli install tbb --version 2021.2.0
-        echo "TBB_DIR=C:/Program Files (x86)/Intel/oneAPI/tbb/2021.2.0/env/.." >> $GITHUB_ENV
+    # - name: Install TBB
+    #   run: |
+    #     choco install oneapi-cli
+    #     oneapi-cli install tbb --version 2021.2.0
+    #     echo "TBB_DIR=C:/Program Files (x86)/Intel/oneAPI/tbb/2021.2.0/env/.." >> $GITHUB_ENV
 
     - name: Install Boost
       run: |
