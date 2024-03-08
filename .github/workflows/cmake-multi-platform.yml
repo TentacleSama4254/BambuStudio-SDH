@@ -22,16 +22,17 @@ jobs:
     #     oneapi-cli install tbb --version 2021.2.0
     #     echo "TBB_DIR=C:/Program Files (x86)/Intel/oneAPI/tbb/2021.2.0/env/.." >> $GITHUB_ENV
 
-    - name: Install Boost
-      run: |
-        choco install boost-msvc-14.2
+    # - name: Install Boost
+    #   run: |
+    #     choco install boost-msvc-14.2
     
     - name: Set up dependencies
       run: |
+        mkdir BambuStudio_dep
         cd deps
         mkdir build
         cd build
-        cmake ../ -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release
+        cmake ../ -G "Visual Studio 16 2019" -DDESTDIR="${{ github.workspace }}/BambuStudio_dep" -DCMAKE_BUILD_TYPE=Release
         msbuild /m ALL_BUILD.vcxproj
 
     - name: Build Bambu Studio
@@ -39,7 +40,7 @@ jobs:
         mkdir install_dir
         mkdir build
         cd build
-        cmake .. -G "Visual Studio 16 2019" -DBBL_RELEASE_TO_PUBLIC=1 -DCMAKE_PREFIX_PATH="${{ github.workspace }}/deps/usr/local" -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0"
+        cmake .. -G "Visual Studio 16 2019" -DBBL_RELEASE_TO_PUBLIC=1 -DCMAKE_PREFIX_PATH="${{ github.workspace }}/BambuStudio_dep/usr/local"  -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0"
         cmake --build . --target install --config Release
 
     - name: Upload artifact
