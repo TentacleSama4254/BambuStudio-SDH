@@ -16,16 +16,16 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Install TBB
+      run: |
+        choco install oneapi-cli
+        oneapi-cli install tbb --version 2021.2.0
+        echo "TBB_DIR=C:/Program Files (x86)/Intel/oneAPI/tbb/2021.2.0/env/.." >> $GITHUB_ENV
+
     - name: Install Boost
       run: |
         choco install boost-msvc-14.2
     
-    - name: Install TBB
-      run: |
-        curl -L https://api.anaconda.com/download/version/2021.2.0/tbb-2021.2.0-intel_213.tar.bz2 -o tbb.tar.bz2
-        tar xjf tbb.tar.bz2
-        echo "TBB_DIR=${{ github.workspace }}/tbb-2021.2.0" >> $GITHUB_ENV
-
     - name: Set up dependencies
       run: |
         cd deps
