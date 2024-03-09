@@ -13,6 +13,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+
+    - name: Install dependencies
+      run: |
+        choco install strawberryperl
+        choco install visualstudio2019community
+        choco install cmake
+        choco install git
+
+    - name: Install OpenSSL
+      run: |
+        choco install openssl
+        echo "OPENSSL_ROOT_DIR=C:/Program Files/OpenSSL-Win64" >> $GITHUB_ENV
+        echo "OPENSSL_LIBRARIES=C:/Program Files/OpenSSL-Win64/lib" >> $GITHUB_ENV
+
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
 
