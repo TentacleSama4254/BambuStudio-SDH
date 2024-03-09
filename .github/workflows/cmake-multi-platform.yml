@@ -83,10 +83,11 @@ jobs:
 
     - name: Build installer
       run: |
+        mkdir installer
         makensis /DPRODUCT_VERSION=1.0.0 /DPRODUCT_NAME="Bambu Studio SDH" /DINSTALLER_FILE_NAME="BambuStudioInstaller" /DPRODUCT_PUBLISHER="INUSHA" /DPRODUCT_WEB_SITE="http://www.example.com" /DINPUT_DIRECTORY="${{ github.workspace }}/install_dir" /DOUTPUT_DIRECTORY="${{ github.workspace }}/installer" "${{ github.workspace }}/path/to/installer/script.nsi"
 
     - name: Upload installer
       uses: actions/upload-artifact@v2
       with:
         name: BambuStudioInstaller_exe
-        path: ./installer/BambuStudioInstaller.exe
+        path: ./installer
