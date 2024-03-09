@@ -39,16 +39,16 @@ jobs:
           ${{ runner.os }}-deps-
 
     - name: Set up dependencies
-      shell: bash
+      shell: pwsh
       run: |
-        if [[ ! -d "BambuStudio_dep" ]]; then
-          mkdir BambuStudio_dep
-          cd deps
-          mkdir build
-          cd build
+        if (!(Test-Path -Path "BambuStudio_dep")) {
+          New-Item -ItemType Directory -Force -Path "BambuStudio_dep"
+          Set-Location -Path deps
+          New-Item -ItemType Directory -Force -Path build
+          Set-Location -Path build
           cmake ../ -G "Visual Studio 16 2019" -DDESTDIR="${{ github.workspace }}/BambuStudio_dep" -DCMAKE_BUILD_TYPE=Release
-          "${MSBUILD_PATH}" /m ALL_BUILD.vcxproj
-        fi
+          & "msbuild /m ALL_BUILD.vcxproj
+        }
         
     - name: Build Bambu Studio
       run: |
