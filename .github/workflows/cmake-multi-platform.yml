@@ -62,3 +62,15 @@ jobs:
       with:
         name: BambuStudio_exe
         path: ./build/BambuStudio.exe
+
+    - name: Upload artifact2
+      uses: actions/upload-artifact@v2
+      with:
+        name: BambuStudio_exe
+        path: ./install_dir/BambuStudio.exe        
+
+    - name: Upload all .exe artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: BambuStudio_exe
+        path: ./**/*.exe
