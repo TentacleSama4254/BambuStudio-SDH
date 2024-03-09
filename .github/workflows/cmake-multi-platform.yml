@@ -39,16 +39,24 @@ jobs:
     # - name: Install Boost
     #   run: |
     #     choco install boost-msvc-14.2
-    
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: BambuStudio_dep
+        key: ${{ runner.os }}-deps-${{ hashFiles('**/deps/**') }}
+        restore-keys: |
+          ${{ runner.os }}-deps-
+
     - name: Set up dependencies
       run: |
-        mkdir BambuStudio_dep
-        cd deps
-        mkdir build
-        cd build
-        cmake ../ -G "Visual Studio 16 2019" -DDESTDIR="${{ github.workspace }}/BambuStudio_dep" -DCMAKE_BUILD_TYPE=Release
-        msbuild /m ALL_BUILD.vcxproj
-
+        if [[ ! -d "BambuStudio_dep" ]]; then
+          mkdir BambuStudio_dep
+          cd deps
+          mkdir build
+          cd build
+          cmake ../ -G "Visual Studio 16 2019" -DDESTDIR="${{ github.workspace }}/BambuStudio_dep" -DCMAKE_BUILD_TYPE=Release
+          msbuild /m ALL_BUILD.vcxproj
+        fi
     - name: Build Bambu Studio
       run: |
         mkdir install_dir
