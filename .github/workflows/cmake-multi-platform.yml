@@ -30,15 +30,6 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.2
 
-    # - name: Install TBB
-    #   run: |
-    #     choco install oneapi-cli
-    #     oneapi-cli install tbb --version 2021.2.0
-    #     echo "TBB_DIR=C:/Program Files (x86)/Intel/oneAPI/tbb/2021.2.0/env/.." >> $GITHUB_ENV
-
-    # - name: Install Boost
-    #   run: |
-    #     choco install boost-msvc-14.2
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
@@ -56,7 +47,7 @@ jobs:
           mkdir build
           cd build
           cmake ../ -G "Visual Studio 16 2019" -DDESTDIR="${{ github.workspace }}/BambuStudio_dep" -DCMAKE_BUILD_TYPE=Release
-          msbuild /m ALL_BUILD.vcxproj
+          "${MSBUILD_PATH}" /m ALL_BUILD.vcxproj
         fi
         
     - name: Build Bambu Studio
