@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
 
     - name: Install dependencies
@@ -31,15 +31,15 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Cache dependencies
-      uses: actions/cache@v2
+      id: cache-dependencies
+      uses: actions/cache@v4
       with:
-        path: BambuStudio_dep
-        key: ${{ runner.os }}-deps-${{ hashFiles('**/deps/**') }}
-        restore-keys: |
-          ${{ runner.os }}-deps-
+        path: ${{ github.workspace }}/BambuStudio_dep
+        key: ${{ runner.os }}-deps-v1
 
     
     - name: Set up dependencies
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: |
         mkdir BambuStudio_dep
         cd deps
@@ -57,20 +57,22 @@ jobs:
         cmake .. -G "Visual Studio 16 2019" -DBBL_RELEASE_TO_PUBLIC=1 -DCMAKE_PREFIX_PATH="${{ github.workspace }}/BambuStudio_dep/usr/local"  -DCMAKE_INSTALL_PREFIX="../install_dir" -DCMAKE_BUILD_TYPE=Release -DWIN10SDK_PATH="C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0"
         cmake --build . --target install --config Release
 
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: BambuStudio_exe
-        path: ./build/BambuStudio.exe
+        path: ./install_dir/bambu-studio.exe    
+
 
     - name: Upload artifact2
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: BambuStudio_exe
-        path: ./install_dir/BambuStudio.exe        
+        path: ./install_dir
 
-    - name: Upload all .exe artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: BambuStudio_exe
-        path: ./**/*.exe
+    # - name: Upload all .exe artifacts
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: BambuStudio_exe
+    #     path: ./**/*.exe
