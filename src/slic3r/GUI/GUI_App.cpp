@@ -579,7 +579,7 @@ private:
             // dynamically get the version to display
             auto version_text = GUI_App::format_display_version();
 #if BBL_INTERNAL_TESTING
-            version = _L("Internal Version") + " " + std::string(version_text);
+            version = _L("SDH Version") + " " + std::string(version_text);
 #else
             version = _L("Version") + " " + std::string(version_text);
 #endif
