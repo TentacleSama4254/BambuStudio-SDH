@@ -7,6 +7,10 @@
 #include "slic3r/GUI/GUI_App.hpp"
 #include "slic3r/GUI/MainFrame.hpp"
 #include "bambu_networking.hpp"
+#include <unistd.h> // for getlogin()
+#include <sqlite3.h> // for SQLite
+#include <chrono>
+#include <ctime>
 
 namespace Slic3r {
 namespace GUI {
@@ -325,7 +329,6 @@ void PrintJob::process()
         &error_text,
         StagePercentPoint
     ](int stage, int code, std::string info) {
-
                         if (stage == BBL::SendingPrintJobStage::PrintingStageCreate && !is_try_lan_mode_failed) {
                             if (this->connection_type == "lan") {
                                 msg = _L("Sending print job over LAN");
@@ -366,7 +369,57 @@ void PrintJob::process()
                                 msg = wxString::Format(_L("Successfully sent. Will automatically jump to the next page in %ss"), info);
                             }
                             this->update_percent_finish();
-                        } else {
+
+                            // Get the current logged in user
+                            char* username = getlogin();
+
+                            // Open connection to SQLite database
+                            sqlite3* db;
+                            int rc = sqlite3_open("print_jobs.db", &db);
+                            if (rc) {
+                                BOOST_LOG_TRIVIAL(error) << "Can't open database: " << sqlite3_errmsg(db);
+                            }
+                            else {
+                                BOOST_LOG_TRIVIAL(info) << "Opened database successfully";
+                            }
+
+                            auto now = std::chrono::system_clock::now();
+
+                            // Convert to time_t for easier manipulation
+                            std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
+
+                            // Convert to tm struct for getting year, month, day, etc.
+                            std::tm* now_tm = std::localtime(&now_time_t);
+
+                            // Format time into a string
+                            char timestamp[100];
+                            std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", now_tm);
+
+                            // Create SQL statement
+                            std::string sql = "INSERT INTO PRINT_JOBS (JOB_ID, FILENAME, TIMESTAMP, USERNAME) " \
+                                "VALUES (" + std::to_string(params.dev_id) + ", " + std::to_string(params.filename) + ", " + std::to_string(timestamp) + ", '" + std::string(username) + "');";
+
+                            try {
+                                // Execute SQL statement
+                                char* errMsg = 0;
+                                rc = sqlite3_exec(db, sql.c_str(), 0, 0, &errMsg);
+
+                                if (rc != SQLITE_OK) {
+                                    throw std::runtime_error(errMsg);
+                                }
+                                else {
+                                    BOOST_LOG_TRIVIAL(info) << "Record created successfully";
+                                }
+                            }
+                            catch (const std::exception& e) {
+                                BOOST_LOG_TRIVIAL(error) << "Exception caught: " << e.what();
+                                sqlite3_free(errMsg);
+                            }
+
+                            // Close the database connection
+                            sqlite3_close(db);
+                        }
+                        else {
                             if (this->connection_type == "lan") {
                                 msg = _L("Sending print job over LAN");
                             } else {
