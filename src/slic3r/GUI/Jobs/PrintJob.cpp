@@ -369,7 +369,7 @@ void PrintJob::process()
                                 msg = wxString::Format(_L("Successfully sent. Will automatically jump to the next page in %ss"), info);
                             }
                             this->update_percent_finish();
-
+                            
                             // Get the current logged in user
                             char* username = getlogin();
 
