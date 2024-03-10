@@ -413,7 +413,7 @@ void PrintJob::process()
                             }
                             catch (const std::exception& e) {
                                 BOOST_LOG_TRIVIAL(error) << "Exception caught: " << e.what();
-                                sqlite3_free(errMsg);
+                                sqlite3_free(errMsg); 
                             }
 
                             // Close the database connection
