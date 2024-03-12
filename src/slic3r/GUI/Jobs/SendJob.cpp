@@ -5,8 +5,11 @@
 #include "slic3r/GUI/Plater.hpp"
 #include "slic3r/GUI/GUI.hpp"
 #include "slic3r/GUI/GUI_App.hpp"
-#include <windows.h>
-#include <Lmcons.h>
+#include <stdlib.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string> 
 
 namespace Slic3r {
 namespace GUI {
@@ -126,8 +129,8 @@ void SendJob::process()
     std::string http_body;
 
 
-   
-   
+
+
     // local print access
     params.dev_ip = m_dev_ip;
     params.username = "bblp";
@@ -153,7 +156,7 @@ void SendJob::process()
         m_job_finished = true;
         return;
     }
-    
+
 
     /* display info */
     msg = _L("Sending gcode file over LAN");
@@ -201,11 +204,18 @@ void SendJob::process()
         return;
     }
 
-    char username[UNLEN + 1];
-    DWORD username_len = UNLEN + 1;
-    GetUserName(username, &username_len);
+    id_t uid = geteuid();
+    struct passwd* pw = getpwuid(uid);
+    std::string username;
+    if (pw) {
+        username = pw->pw_name; // Store the username in a string
+    }
+    else {
+        username = "not found";
+        fprintf(stderr, "%s: cannot find username for UID %u\n");
+    }
 
-    std::string project_name = std::string(username) + " - " + m_project_name + ".gcode.3mf";
+    std::string project_name = username + " - " + m_project_name + ".gcode.3mf";
     int curr_plate_idx = 0;
     if (job_data.plate_idx >= 0)
         curr_plate_idx = job_data.plate_idx + 1;
