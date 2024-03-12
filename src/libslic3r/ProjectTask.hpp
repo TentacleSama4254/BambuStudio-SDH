@@ -260,7 +260,7 @@ class BBLProject {
 public:
     BBLProject() {
         /* give a default project name */
-        project_name = "Untitled";
+        project_name = "Untitled_";
     }
     BBLProject(std::string name) {
         project_name = name;

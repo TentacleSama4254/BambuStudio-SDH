@@ -1,8 +1,13 @@
 #include <string>
-#include <stdlib.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#include <Lmcons.h>
+#else
 #include <pwd.h>
-#include <stdio.h>
 #include <unistd.h>
+#endif
+
 #include "SendJob.hpp"
 #include "libslic3r/MTUtils.hpp"
 #include "libslic3r/Model.hpp"

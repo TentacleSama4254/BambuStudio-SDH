@@ -9754,7 +9754,7 @@ static const char* GetFallbackWindowNameForWindowingList(ImGuiWindow* window)
         return "(Popup)";
     if ((window->Flags & ImGuiWindowFlags_MenuBar) && strcmp(window->Name, "##MainMenuBar") == 0)
         return "(Main menu bar)";
-    return "(Untitled)";
+    return "(Untitled--)";
 }
 
 // Overlay displayed when using CTRL+TAB. Called by EndFrame().
