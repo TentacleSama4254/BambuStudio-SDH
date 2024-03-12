@@ -2170,7 +2170,7 @@ struct Plater::priv
                 wxString project_name = suggested_project_name = get_project_filename(".3mf");
                 if (suggested_project_name.IsEmpty()) {
                     fs::path output_file = get_export_file_path(FT_3MF);
-                    suggested_project_name = output_file.empty() ? _L("Untitled") : from_u8(output_file.stem().string());
+                    suggested_project_name = output_file.empty() ? _L("Untitled##") : from_u8(output_file.stem().string());
                 }
                 res = MessageDialog(mainframe, reason + "\n" + format_wxstr(_L("Do you want to save changes to \"%1%\"?"), suggested_project_name),
                                     wxString(SLIC3R_APP_FULL_NAME), wxYES_NO | wxCANCEL).ShowModal();
