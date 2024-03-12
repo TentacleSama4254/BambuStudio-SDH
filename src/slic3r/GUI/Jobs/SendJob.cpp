@@ -44,6 +44,19 @@ SendJob::SendJob(std::shared_ptr<ProgressIndicator> pri, Plater* plater, std::st
     m_print_job_completed_id = plater->get_send_finished_event();
 }
 
+std::string getUserName() {
+#ifdef _WIN32
+    char username[UNLEN + 1];
+    DWORD username_len = UNLEN + 1;
+    GetUserName(username, &username_len);
+    return std::string(username);
+#else
+    struct passwd* pw;
+    pw = getpwuid(geteuid());
+    return std::string(pw->pw_name);
+#endif
+}
+
 void SendJob::prepare()
 {
     m_plater->get_print_job_data(&job_data);
