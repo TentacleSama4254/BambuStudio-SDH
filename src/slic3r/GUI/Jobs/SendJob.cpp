@@ -200,7 +200,7 @@ void SendJob::process()
         return;
     }
 
-    std::string project_name = std::string(getlogin()) + " - " + m_project_name + ".gcode.3mf";
+    std::string project_name = " - " + m_project_name + ".gcode.3mf";
     int curr_plate_idx = 0;
     if (job_data.plate_idx >= 0)
         curr_plate_idx = job_data.plate_idx + 1;
