@@ -2,7 +2,7 @@ name: Build Bambu Studio on Windows
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master" , "DB"]
   pull_request:
     branches: [ "master" ]
 
