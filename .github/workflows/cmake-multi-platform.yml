@@ -79,7 +79,8 @@ jobs:
         mkdir installer
         makensis /DPRODUCT_VERSION=1.0.0 /DPRODUCT_NAME="Bambu Studio SDH" /DINSTALLER_FILE_NAME="BambuStudioInstaller" /DPRODUCT_PUBLISHER="INUSHA" /DPRODUCT_WEB_SITE="http://www.example.com" /DINPUT_DIRECTORY="${{ github.workspace }}/install_dir" /DOUTPUT_DIRECTORY="${{ github.workspace }}/installer" "${{ github.workspace }}/install.nsi"
 
-    - name: Find and upload installer
+    - name: Find .exe file
+      shell: bash
       run: |
         FILE_PATH=$(find . -name "BambuStudio_SDH_Setup.exe")
         echo "FILE_PATH=$FILE_PATH" >> $GITHUB_ENV

@@ -18,6 +18,30 @@ check_include_file("sys/stat.h" HAVE_SYS_STAT_H)
 check_include_file("sys/types.h" HAVE_SYS_TYPES_H)
 check_include_file("unistd.h" HAVE_UNISTD_H)
 
+check_include_file(stdlib.h HAVE_STDLIB_H)
+
+if(NOT HAVE_STDLIB_H)
+    message(FATAL_ERROR "stdlib.h not found")
+endif()
+
+check_include_file(pwd.h HAVE_PWD_H)
+
+if(NOT HAVE_PWD_H)
+    message(FATAL_ERROR "pwd.h not found")
+endif()
+
+check_include_file(stdio.h HAVE_STDIO_H)
+
+if(NOT HAVE_STDIO_H)
+    message(FATAL_ERROR "stdio.h not found")
+endif()
+
+check_include_file(unistd.h HAVE_UNISTD_H)
+
+if(NOT HAVE_UNISTD_H)
+    message(FATAL_ERROR "unistd.h not found")
+endif()
+
 check_symbol_exists("getpagesize" "unistd.h" HAVE_GETPAGESIZE)
 check_symbol_exists("mmap" "sys/mman.h" HAVE_MMAP)
 check_symbol_exists("getrandom" "sys/random.h" HAVE_GETRANDOM)
