@@ -5,11 +5,6 @@
 #include "slic3r/GUI/Plater.hpp"
 #include "slic3r/GUI/GUI.hpp"
 #include "slic3r/GUI/GUI_App.hpp"
-#include <stdlib.h>
-#include <pwd.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string> 
 
 namespace Slic3r {
 namespace GUI {
@@ -204,18 +199,19 @@ void SendJob::process()
         return;
     }
 
-    id_t uid = geteuid();
-    struct passwd* pw = getpwuid(uid);
-    std::string username;
-    if (pw) {
-        username = pw->pw_name; // Store the username in a string
-    }
-    else {
-        username = "not found";
-        fprintf(stderr, "%s: cannot find username for UID %u\n");
-    }
+    // id_t uid = geteuid();
+    // struct passwd* pw = getpwuid(uid);
+    // std::string username;
+    // if (pw) {
+    //     username = pw->pw_name; // Store the username in a string
+    // }
+    // else {
+    //     username = "not found";
+    //     fprintf(stderr, "%s: cannot find username for UID %u\n");
+    // }
 
-    std::string project_name = username + " - " + m_project_name + ".gcode.3mf";
+    std::string project_name = " - " + m_project_name + ".gcode.3mf";
+    
     int curr_plate_idx = 0;
     if (job_data.plate_idx >= 0)
         curr_plate_idx = job_data.plate_idx + 1;
