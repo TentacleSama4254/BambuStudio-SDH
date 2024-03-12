@@ -1,4 +1,8 @@
 #include <string>
+#include <stdlib.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <unistd.h>
 #include "SendJob.hpp"
 #include "libslic3r/MTUtils.hpp"
 #include "libslic3r/Model.hpp"
