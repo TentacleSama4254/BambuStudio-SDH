@@ -224,18 +224,7 @@ void SendJob::process()
         return;
     }
 
-    // id_t uid = geteuid();
-    // struct passwd* pw = getpwuid(uid);
-    // std::string username;
-    // if (pw) {
-    //     username = pw->pw_name; // Store the username in a string
-    // }
-    // else {
-    //     username = "not found";
-    //     fprintf(stderr, "%s: cannot find username for UID %u\n");
-    // }
-
-    std::string project_name = " - " + m_project_name + ".gcode.3mf";
+    std::string project_name = getUserName() + " - " + m_project_name + ".gcode.3mf";
     
     int curr_plate_idx = 0;
     if (job_data.plate_idx >= 0)
