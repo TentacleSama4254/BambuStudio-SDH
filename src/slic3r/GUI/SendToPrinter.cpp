@@ -1,6 +1,15 @@
 #include "SendToPrinter.hpp"
 #include "I18N.hpp"
 
+#include <string>
+#ifdef _WIN32
+#include <windows.h>
+#include <Lmcons.h>
+#else
+#include <pwd.h>
+#include <unistd.h>
+#endif
+
 #include "libslic3r/Utils.hpp"
 #include "libslic3r/Thread.hpp"
 #include "GUI.hpp"
