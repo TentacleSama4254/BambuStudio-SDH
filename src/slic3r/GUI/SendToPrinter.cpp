@@ -1263,6 +1263,20 @@ void SendToPrinterDialog::on_dpi_changed(const wxRect &suggested_rect)
     Refresh();
 }
 
+std::string getUserName() {
+#ifdef _WIN32
+    wchar_t username[UNLEN + 1];
+    DWORD username_len = UNLEN + 1;
+    GetUserNameW(username, &username_len);
+    std::wstring wstr(username);
+    return std::string(wstr.begin(), wstr.end());
+#else
+    struct passwd* pw;
+    pw = getpwuid(geteuid());
+    return std::string(pw->pw_name);
+#endif
+}
+
 void SendToPrinterDialog::set_default()
 {
     //project name
@@ -1270,13 +1284,14 @@ void SendToPrinterDialog::set_default()
 
     wxString filename = m_plater->get_export_gcode_filename("", true, m_print_plate_idx == PLATE_ALL_IDX ? true : false);
 
+    std::string username = getUserName();
     if (m_print_plate_idx == PLATE_ALL_IDX && filename.empty()) {
-        filename = _L("Untitled");
+        filename = _L(username +"Untitled");
     }
 
     if (filename.empty()) {
         filename = m_plater->get_export_gcode_filename("", true);
-        if (filename.empty()) filename = _L("Untitled");
+        if (filename.empty()) filename = _L(username +"Untitled");
     }
 
     fs::path filename_path(filename.c_str());
