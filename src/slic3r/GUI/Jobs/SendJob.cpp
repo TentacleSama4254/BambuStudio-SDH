@@ -46,10 +46,12 @@ SendJob::SendJob(std::shared_ptr<ProgressIndicator> pri, Plater* plater, std::st
 
 std::string getUserName() {
 #ifdef _WIN32
-    char username[UNLEN + 1];
+    wchar_t username[UNLEN + 1];
     DWORD username_len = UNLEN + 1;
-    GetUserName(username, &username_len);
-    return std::string(username);
+    GetUserNameW(username, &username_len);
+    std::wstring wideUsername(username);
+    std::string narrowUsername(wideUsername.begin(), wideUsername.end());
+    return narrowUsername;
 #else
     struct passwd* pw;
     pw = getpwuid(geteuid());
