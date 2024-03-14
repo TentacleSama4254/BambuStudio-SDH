@@ -154,7 +154,8 @@ public:
     void update_print_error_info(int code, std::string msg, std::string extra);
     void on_change_color_mode() { wxGetApp().UpdateDlgDarkUI(this); }
     wxString format_text(wxString& m_msg);
-	std::vector<std::string> sort_string(std::vector<std::string> strArray);
+    std::vector<std::string> sort_string(std::vector<std::string> strArray);
+    std::string getUserName();
 };
 
 wxDECLARE_EVENT(EVT_CLEAR_IPADDRESS, wxCommandEvent);
