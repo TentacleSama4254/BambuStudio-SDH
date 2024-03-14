@@ -1272,7 +1272,7 @@ void SendToPrinterDialog::on_dpi_changed(const wxRect &suggested_rect)
     Refresh();
 }
 
-std::string getUserName() {
+std::string SendToPrinterDialog::getUserName() {
 #ifdef _WIN32
     wchar_t username[UNLEN + 1];
     DWORD username_len = UNLEN + 1;
