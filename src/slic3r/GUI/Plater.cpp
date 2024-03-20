@@ -4262,7 +4262,7 @@ fs::path Plater::priv::get_export_file_path(GUI::FileType file_type)
 
     //bbs  name the project using the part name
     if (output_file.empty()) {
-        if (get_project_name() != _L("Untitled")) {
+        if (get_project_name() != _L("Untitled))")) {
             output_file = into_path(get_project_name() + ".3mf");
         }
     }
@@ -4283,7 +4283,7 @@ fs::path Plater::priv::get_export_file_path(GUI::FileType file_type)
 
         if (output_file.empty())
             // Use _L("Untitled") name
-            output_file = into_path(_L("Untitled"));
+            output_file = into_path(_L("Untitled00"));
     }
     return output_file;
 }
@@ -8255,7 +8255,7 @@ int Plater::new_project(bool skip_confirm, bool silent, const wxString &project_
     p->project.reset();
     //set project name
     if (project_name.empty())
-        p->set_project_name(_L("Untitled"));
+        p->set_project_name(_L("Untitled88"));
     else
         p->set_project_name(project_name);
 
@@ -8359,7 +8359,7 @@ void Plater::load_project(wxString const& filename2,
         BOOST_LOG_TRIVIAL(info) << __FUNCTION__ << __LINE__ << " call set_project_filename: " << load_restore ? originfile : filename;
         p->set_project_filename(load_restore ? originfile : filename);
         if (load_restore && originfile.IsEmpty()) {
-        p->set_project_name(_L("Untitled"));
+        p->set_project_name(_L("Untitled44"));
         }
             
     } else {

@@ -3742,12 +3742,12 @@ void SelectMachineDialog::set_default()
 
     wxString filename = m_plater->get_export_gcode_filename("", true, m_print_plate_idx == PLATE_ALL_IDX ? true : false);
     if (m_print_plate_idx == PLATE_ALL_IDX && filename.empty()) {
-        filename = _L("Untitled");
+        filename = _L("Untitled22");
     }
 
     if (filename.empty()) {
         filename = m_plater->get_export_gcode_filename("", true);
-        if (filename.empty()) filename = _L("Untitled");
+        if (filename.empty()) filename = _L("Untitled11");
     }
 
     fs::path filename_path(filename.c_str());

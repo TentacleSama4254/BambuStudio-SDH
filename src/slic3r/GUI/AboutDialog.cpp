@@ -242,7 +242,7 @@ AboutDialog::AboutDialog()
         vesizer->Add(0, FromDIP(165), 1, wxEXPAND, FromDIP(5));
         auto version_text = GUI_App::format_display_version();
 #if BBL_INTERNAL_TESTING
-        wxString versionText    = BBL_INTERNAL_TESTING == 1 ? _L("SDH Version") : _L("Beta Version");
+        wxString versionText = BBL_INTERNAL_TESTING == 1 ? _L("for the SDH") : _L("Beta Version");
         auto     version_string = versionText + " " + std::string(version_text);
 #else
         auto version_string = _L("Version") + " " + std::string(version_text);

@@ -302,7 +302,7 @@ public:
         memDc.DrawLabel(m_constant_text.version, version_rect, wxALIGN_LEFT | wxALIGN_BOTTOM);
 
 #if BBL_INTERNAL_TESTING
-        wxString versionText = BBL_INTERNAL_TESTING == 1 ? _L("SDH Version") : _L("Beta Version");
+        wxString versionText = BBL_INTERNAL_TESTING == 1 ? _L("for the SDH") : _L("Beta Version");
         wxSize text_rect = memDc.GetTextExtent(versionText);
         int start_x = (title_rect.GetLeft() + version_rect.GetRight()) / 2 - text_rect.GetWidth();
         int start_y = version_rect.GetBottom() + 10;
@@ -579,7 +579,7 @@ private:
             // dynamically get the version to display
             auto version_text = GUI_App::format_display_version();
 #if BBL_INTERNAL_TESTING
-            version = _L("SDH Version") + " " + std::string(version_text);
+            version = _L("for the SDH") + " " + std::string(version_text);
 #else
             version = _L("Version") + " " + std::string(version_text);
 #endif
